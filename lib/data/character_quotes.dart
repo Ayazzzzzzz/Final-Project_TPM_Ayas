@@ -91,6 +91,18 @@ final Map<String, List<String>> characterIconicQuotes = {
     "It looked quite delicious and it was getting cold, so I gave it shelter in my stomach, sir.",
     "Meat."
   ],
+  "Levi Ackermann": [
+    "The only thing we're allowed to do is believe that we won't regret the choice we made.",
+    "Give up on your dreams and die.",
+    "Just do the best you can and choose whichever you'll regret the least.",
+    "The difference between your decision and ours is experience. But you don't have to rely on that.",
+    "This is just my opinion, but when it comes to teaching somebody discipline... I think pain is the most effective way.",
+    "Whether you have the body, dead is dead.",
+    "We can't always carry our fallen comrades home, but we carry their memory.",
+    "You can't change anything unless you can discard part of yourself too. To surpass monsters, you must be willing to abandon your humanity.",
+    "I don't know which option you should choose. I could never advise you on that... No matter what kind of wisdom dictates the option you pick, no one will be able to tell if it's right or wrong until you arrive at some sort of outcome from your choice.",
+    "You either will, or you won't."
+  ],
 
   // Tambahkan lebih banyak karakter dan kutipan mereka di sini
   // Pastikan nama karakter di sini SAMA PERSIS dengan nama di API
