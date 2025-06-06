@@ -43,13 +43,14 @@ class _HomePageState extends State<HomePage> {
   final Random _random = Random();
   List<Titan> _titansForSummon = [];
   bool _isLoadingTitansForSummon = false;
-  bool _isSummonModeActive = false;
+  // bool _isSummonModeActive = false; // <-- VARIABEL INI DIHAPUS
 
   @override
   void initState() {
     super.initState();
     _loadInitialData(); // Memuat data kategori dan filter awal
     _searchController.addListener(_filterAndSearchItems);
+    _initAccelerometerListener(); // <-- SENSOR LANGSUNG DIAKTIFKAN
   }
 
   @override
@@ -275,7 +276,6 @@ class _HomePageState extends State<HomePage> {
 
   // --- Fungsi untuk Fitur Summon Titan ---
   Future<void> _fetchTitansForSummonFeature() async {
-    // ... (Kode _fetchTitansForSummonFeature Anda yang sudah benar dari sebelumnya)
     if (!mounted) return;
     if (_titansForSummon.isNotEmpty) {
       debugPrint("Titans for summon mode already loaded.");
@@ -305,7 +305,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _initAccelerometerListener() {
-    // ... (Kode _initAccelerometerListener Anda yang sudah benar dari sebelumnya)
     if (_accelerometerSubscription != null) {
       _accelerometerSubscription!.cancel();
     }
@@ -313,7 +312,8 @@ class _HomePageState extends State<HomePage> {
         accelerometerEventStream(samplingPeriod: SensorInterval.uiInterval)
             .listen(
       (AccelerometerEvent event) {
-        if (!_isSummonModeActive || !mounted) return;
+        // if (!_isSummonModeActive || !mounted) return; // <-- LOGIKA INI DIGANTI
+        if (!mounted) return; // Cukup cek ini
 
         double x = event.x;
         double y = event.y;
@@ -329,19 +329,11 @@ class _HomePageState extends State<HomePage> {
             if (!_isProcessingShake && _titansForSummon.isNotEmpty) {
               setState(() => _isProcessingShake = true);
               _performTitanSummon();
-            } else if (_titansForSummon.isEmpty && !_isLoadingTitansForSummon) {
-              debugPrint(
-                  "Shake detected, but no Titans available. Attempting to fetch...");
-              _fetchTitansForSummonFeature().then((_) {
-                if (mounted)
-                  setState(() {
-                    _isProcessingShake = false;
-                  });
-              });
             } else if (mounted) {
-              setState(() {
-                _isProcessingShake = false;
-              });
+              // Menghindari setState jika tidak perlu
+              if (_isProcessingShake) {
+                setState(() => _isProcessingShake = false);
+              }
             }
           }
         }
@@ -349,41 +341,12 @@ class _HomePageState extends State<HomePage> {
       onError: (error) {/* ... */},
       cancelOnError: true,
     );
-    debugPrint("Accelerometer listener initialized.");
   }
 
-  void _stopAccelerometerListener() {
-    // ... (Kode _stopAccelerometerListener Anda yang sudah benar dari sebelumnya)
-    _accelerometerSubscription?.cancel();
-    _accelerometerSubscription = null;
-    debugPrint("Accelerometer listener stopped.");
-  }
-
-  void _toggleSummonMode() {
-    // ... (Kode _toggleSummonMode Anda yang sudah benar dari sebelumnya)
-    setState(() {
-      _isSummonModeActive = !_isSummonModeActive;
-      if (_isSummonModeActive) {
-        if (_titansForSummon.isEmpty && !_isLoadingTitansForSummon) {
-          _fetchTitansForSummonFeature().then((_) {
-            if (mounted && _titansForSummon.isNotEmpty)
-              _initAccelerometerListener();
-          });
-        } else if (_titansForSummon.isNotEmpty) {
-          _initAccelerometerListener();
-        }
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Mode Summon Titan AKTIF! Goyangkan HP Anda!")));
-      } else {
-        _stopAccelerometerListener();
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Mode Summon Titan dinonaktifkan.")));
-      }
-    });
-  }
+  // void _stopAccelerometerListener() { ... } // <-- FUNGSI INI DIHAPUS
+  // void _toggleSummonMode() { ... } // <-- FUNGSI INI DIHAPUS
 
   void _performTitanSummon() {
-    // ... (Kode _performTitanSummon Anda yang sudah benar dari sebelumnya)
     if (_titansForSummon.isEmpty || !mounted) {
       if (mounted) setState(() => _isProcessingShake = false);
       return;
@@ -392,17 +355,13 @@ class _HomePageState extends State<HomePage> {
     final summonedTitan =
         _titansForSummon[_random.nextInt(_titansForSummon.length)];
     String summonMessage =
-        "\"${summonedTitan.name} telah bangkit merespons getaranmu!\"";
+        "\"Getaran besar terdeteksi. ${summonedTitan.name} sedang menyerang kota, LARII!\"";
 
-    // --- PEMANGGILAN showDialog YANG BENAR ---
     showDialog(
-      context: context, // Menyediakan BuildContext saat ini
-      barrierDismissible:
-          false, // Pengguna harus menekan tombol untuk menutup (opsional)
+      context: context,
+      barrierDismissible: false,
       builder: (BuildContext dialogContext) {
-        // Fungsi builder yang mengembalikan widget dialog
-        final theme =
-            Theme.of(dialogContext); // Gunakan dialogContext untuk theme
+        final theme = Theme.of(dialogContext);
         return AlertDialog(
           backgroundColor: theme.colorScheme.surface,
           shape:
@@ -417,7 +376,7 @@ class _HomePageState extends State<HomePage> {
                   color: theme.colorScheme.primary, size: 28),
               const SizedBox(width: 10),
               Expanded(
-                child: Text("TITAN SUMMONED!",
+                child: Text("TITAN DETECTED!",
                     style: TextStyle(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -436,10 +395,9 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(10.0),
                   color: theme.colorScheme.surfaceVariant,
                 ),
-                child: Image.network(
-                    summonedTitan.displayImage, // Dari model Titan
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
+                child:
+                    Image.network(summonedTitan.displayImage, fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return const Center(child: CircularProgressIndicator());
                 }, errorBuilder: (context, error, stackTrace) {
@@ -472,14 +430,13 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text("AWESOME!",
+              child: Text("THANK, BYE!",
                   style: TextStyle(
                       color: theme.colorScheme.secondary,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'NotoSerif')),
               onPressed: () {
-                Navigator.of(dialogContext)
-                    .pop(); // Gunakan dialogContext untuk menutup
+                Navigator.of(dialogContext).pop();
               },
             ),
           ],
@@ -519,6 +476,7 @@ class _HomePageState extends State<HomePage> {
                           "AOT FANBASE HUB",
                           style: theme.textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.bold,
+                              fontSize: 26,
                               fontFamily: 'NotoSerif',
                               height: 1.2),
                         ),
@@ -560,49 +518,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               const SizedBox(height: 16),
-              Container(
-                // Tombol Aktivasi Summon Mode
-                padding: const EdgeInsets.symmetric(
-                    vertical: 4.0), // Kurangi padding vertikal
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: SwitchListTile(
-                  title: Text(
-                    'Titan Summon Mode',
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      // Ukuran font disesuaikan
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'NotoSerif',
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  subtitle: Text(
-                    _isSummonModeActive
-                        ? 'Shake to summon!'
-                        : 'Activate summon mode',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant
-                            .withOpacity(0.7)),
-                  ),
-                  value: _isSummonModeActive,
-                  onChanged: (bool value) {
-                    _toggleSummonMode();
-                  },
-                  secondary: Icon(
-                    _isSummonModeActive
-                        ? Icons.sensors_rounded
-                        : Icons.sensors_off_rounded,
-                    color: _isSummonModeActive
-                        ? theme.colorScheme.primary
-                        : Colors.grey[600],
-                  ),
-                  activeColor: theme.colorScheme.primary,
-                  dense: true, // Membuat SwitchListTile lebih compact
-                ),
-              ),
-              const SizedBox(height: 16),
+
+              // CONTAINER & SWITCHLISTTILE DIHAPUS DARI SINI
+
               Row(
                 // Tombol Kategori
                 children: DisplayCategory.values.map((category) {
@@ -622,12 +540,9 @@ class _HomePageState extends State<HomePage> {
                             foregroundColor: isSelected
                                 ? theme.colorScheme.onPrimary
                                 : theme.colorScheme.onSurface,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10), // Padding disesuaikan
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                             textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14) // Ukuran font disesuaikan
-                            ),
+                                fontWeight: FontWeight.bold, fontSize: 14)),
                         child: Text(category.name[0].toUpperCase() +
                             category.name.substring(1)),
                       ),
@@ -657,7 +572,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   if (_selectedCategory == DisplayCategory.character)
                     Padding(
-                      // Padding untuk IconButton Filter
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Tooltip(
                         message: "Filter by Occupation",
@@ -687,8 +601,7 @@ class _HomePageState extends State<HomePage> {
                                 "No results found for ${_selectedCategory.name}s."))
                         : GridView.builder(
                             padding:
-                                const EdgeInsets.only(top: 8.0, bottom: 16.0),
-                            // ... (GridView.builder Anda tetap sama)
+                                const EdgeInsets.only(top: 16.0, bottom: 16.0),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,

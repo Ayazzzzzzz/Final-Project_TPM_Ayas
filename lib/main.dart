@@ -144,7 +144,7 @@ class MyApp extends StatelessWidget {
             iconTheme: IconThemeData(color: parchmentWhite.withOpacity(0.85)),
             titleTextStyle: TextStyle(
               fontFamily: 'NotoSerif',
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: parchmentWhite,
             ),
