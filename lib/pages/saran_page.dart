@@ -17,6 +17,7 @@ class SaranPage extends StatelessWidget {
           children: [
             Icon(icon, size: 20, color: theme.colorScheme.secondary),
             const SizedBox(width: 16),
+            // Penyesuaian lebar agar lebih fleksibel
             Text('$title:', style: TextStyle(color: Colors.grey[400])),
             const SizedBox(width: 8),
             Expanded(
@@ -54,9 +55,7 @@ class SaranPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // --- BAGIAN 1: INFORMASI MATA KULIAH ---
-            SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             Text(
               "Detail Evaluasi",
               style: theme.textTheme.headlineSmall
@@ -69,11 +68,11 @@ class SaranPage extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildInfoRow(Icons.class_outlined, "Mata Kuliah",
-                        "Teknologi & Pemrograman Mobile"),
+                        "Tek. & P Mobile IF-A"),
                     _buildInfoRow(
-                        Icons.qr_code_scanner_outlined, "Kode MK", "IF-404"),
-                    _buildInfoRow(
-                        Icons.person_pin_outlined, "Dosen", "Tim Dosen Mobile"),
+                        Icons.qr_code_scanner_outlined, "Kode MK", "123210472"),
+                    _buildInfoRow(Icons.person_pin_outlined, "Dosen",
+                        "Bagus M.Akbar S.ST., M.Kom."),
                     _buildInfoRow(Icons.calendar_today_outlined, "Semester",
                         "Genap 2024/2025"),
                   ],
@@ -101,26 +100,31 @@ class SaranPage extends StatelessWidget {
                     ),
                     const Divider(height: 24),
                     _buildFeedbackPoint(
-                        "Materi relevan dengan industri (Flutter)."),
+                        "Memberikan teori yang sangat insightful"),
                     _buildFeedbackPoint(
-                        "Memberikan wawasan mendalam tentang state management."),
+                        "Tugas menantang dan memberi banyak pelajaran baru"),
                     _buildFeedbackPoint(
-                        "Studi kasus yang menarik dan menantang."),
+                        "Selalu mengabari ketika kelas ditiadakan serta mulai dan selesai tepat waktu"),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Penilaian Keseluruhan:",
                             style: theme.textTheme.bodyLarge),
+                        // Representasi 4.5 Bintang
                         Row(
-                          children: List.generate(5, (index) {
-                            return Icon(
-                              Icons.star,
-                              color: index < 4
-                                  ? theme.colorScheme.secondary
-                                  : Colors.grey[700],
-                            );
-                          }),
+                          children: [
+                            Icon(Icons.star,
+                                color: theme.colorScheme.secondary),
+                            Icon(Icons.star,
+                                color: theme.colorScheme.secondary),
+                            Icon(Icons.star,
+                                color: theme.colorScheme.secondary),
+                            Icon(Icons.star,
+                                color: theme.colorScheme.secondary),
+                            Icon(Icons.star_half,
+                                color: theme.colorScheme.secondary),
+                          ],
                         ),
                       ],
                     ),
@@ -149,9 +153,11 @@ class SaranPage extends StatelessWidget {
                     ),
                     const Divider(height: 24),
                     _buildFeedbackPoint(
-                        "Tambahkan sesi workshop atau live coding untuk studi kasus end-to-end."),
+                        "Sesi live coding dengan bimbingan langsung akan sangat meningkatkan kemampuan mahasiswa"),
                     _buildFeedbackPoint(
-                        "Perbanyak contoh implementasi pada arsitektur yang berbeda (e.g., BLoC vs Riverpod)."),
+                        "Memberi lebih banyak contoh program untuk melengkapi teori"),
+                    _buildFeedbackPoint(
+                        "Memberi tema berbeda-beda untuk tugas akhir di setiap kelas agar tidak terjadi overlap tema yang serupa"),
                   ],
                 ),
               ),
