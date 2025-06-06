@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ta_mobile_ayas/models/merch_item_model.dart';
 import '../../main.dart'; // Untuk merchBoxName
 import 'package:collection/collection.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MerchPage extends StatefulWidget {
   const MerchPage({super.key});
@@ -22,9 +23,9 @@ class _MerchPageState extends State<MerchPage> {
   // -----------------------------------------
 
   final Map<String, double> _jpyExchangeRates = {
-    'USD': 0.0067,
-    'IDR': 109.25,
-    'MYR': 0.031,
+    'USD': 0.006903,
+    'IDR': 112.4,
+    'MYR': 0.02919,
   };
 
   Box<MerchItem>? _merchBox;
@@ -82,6 +83,17 @@ class _MerchPageState extends State<MerchPage> {
         }
         debugPrint("Unique categories updated: $_uniqueCategories");
       });
+    }
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Tidak dapat membuka URL: $url')),
+        );
+      }
     }
   }
 
@@ -359,6 +371,20 @@ class _MerchPageState extends State<MerchPage> {
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 12),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () => _launchURL(item.storeUrl),
+                                    label: const Text("GO TO STORE"),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: theme
+                                          .colorScheme.secondary
+                                          .withOpacity(0.9),
+                                      foregroundColor:
+                                          theme.colorScheme.onSecondary,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           )

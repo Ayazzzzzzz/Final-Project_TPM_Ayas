@@ -23,13 +23,14 @@ class MerchItemAdapter extends TypeAdapter<MerchItem> {
       priceJpy: fields[3] as double,
       imageUrl: fields[4] as String,
       category: fields[5] as String,
+      storeUrl: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, MerchItem obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class MerchItemAdapter extends TypeAdapter<MerchItem> {
       ..writeByte(4)
       ..write(obj.imageUrl)
       ..writeByte(5)
-      ..write(obj.category);
+      ..write(obj.category)
+      ..writeByte(6)
+      ..write(obj.storeUrl);
   }
 
   @override

@@ -23,6 +23,9 @@ class MerchItem extends HiveObject {
   @HiveField(5)
   late String category;
 
+  @HiveField(6) // <-- FIELD BARU
+  late String storeUrl;
+
   MerchItem({
     required this.id,
     required this.name,
@@ -30,6 +33,7 @@ class MerchItem extends HiveObject {
     required this.priceJpy,
     required this.imageUrl,
     required this.category,
+    required this.storeUrl,
   });
 
   // Getter untuk gambar yang akan ditampilkan, dengan fallback
