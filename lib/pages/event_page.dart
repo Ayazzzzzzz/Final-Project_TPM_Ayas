@@ -67,11 +67,13 @@ class _EventsPageState extends State<EventsPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(/* ... AppBar Anda ... */),
       body: Column(
         // Bungkus dengan Column untuk menambahkan Dropdown
         children: [
           // --- DROPDOWN PEMILIHAN ZONA WAKTU TARGET ---
+          SizedBox(
+            height: 30,
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: DropdownButtonFormField<String>(
@@ -212,8 +214,6 @@ class _EventsPageState extends State<EventsPage> {
                                       ),
                                     );
                                   },
-                                  icon: Icon(Icons.map_outlined,
-                                      size: 20), // Ganti ikon
                                   label:
                                       const Text("Lihat di Peta"), // Ganti teks
                                   style: ElevatedButton.styleFrom(
