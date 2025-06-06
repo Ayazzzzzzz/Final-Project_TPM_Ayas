@@ -25,6 +25,7 @@ class _EventsPageState extends State<EventsPage> {
     'WIB': 'Asia/Jakarta', // Waktu Indonesia Barat
     'WITA': 'Asia/Makassar', // Waktu Indonesia Tengah
     'WIT': 'Asia/Jayapura', // Waktu Indonesia Timur
+    'Jepang': 'Asia/Tokyo',
     'London':
         'Europe/London', // Waktu London (memperhitungkan BST/GMT otomatis)
     'Local': 'Local', // Pilihan untuk waktu lokal perangkat
