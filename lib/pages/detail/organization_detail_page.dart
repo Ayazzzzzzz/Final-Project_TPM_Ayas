@@ -1,5 +1,3 @@
-// lib/pages/detail/organization_detail_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:ta_mobile_ayas/models/organization_model.dart';
 
@@ -67,7 +65,6 @@ class OrganizationDetailPage extends StatelessWidget {
             spacing: 8.0,
             runSpacing: 6.0,
             children: items.map((item) {
-              // Cek apakah item adalah URL, jika ya, tampilkan bagian terakhir (ID)
               String displayItem = item;
               if (item.startsWith('http')) {
                 displayItem = "ID: ${item.split('/').last}";
@@ -152,7 +149,7 @@ class OrganizationDetailPage extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   Hero(
-                    tag: 'organization-${organization.id}', // Tag unik
+                    tag: 'organization-${organization.id}', 
                     child: Image.network(
                       organization.displayImage,
                       fit: BoxFit.cover,

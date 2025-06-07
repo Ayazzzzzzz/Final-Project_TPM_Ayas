@@ -1,5 +1,3 @@
-// lib/domain/models/character_model.dart
-
 class Character {
   final int id;
   final String name;
@@ -63,8 +61,7 @@ class Character {
       episodes: List<String>.from(json['episodes'] ?? []),
     );
   }
-
-  // Informasi penting untuk ditampilkan di grid
+  
   String get primaryInfo => occupation ?? (species.isNotEmpty ? species.first : 'Unknown');
   String get displayImage => img ?? 'https://via.placeholder.com/200x300.png?text=No+Image';
 

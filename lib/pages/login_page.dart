@@ -1,6 +1,4 @@
-// lib/pages/auth/login_page.dart
 import 'package:flutter/material.dart';
-// Sesuaikan path import ini dengan struktur proyek Anda
 import 'package:ta_mobile_ayas/main_layout.dart';
 import 'package:ta_mobile_ayas/pages/register_page.dart';
 import 'package:ta_mobile_ayas/pages/services/auth_service.dart';
@@ -60,33 +58,22 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    //final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      // Anda bisa menambahkan Stack di sini jika ingin gambar latar belakang penuh
-      // body: Stack(
-      //   children: [
-      //     // Positioned.fill(
-      //     //   child: Image.asset(
-      //     //     "assets/images/your_aot_background.jpg", // Ganti dengan path aset Anda
-      //     //     fit: BoxFit.cover,
-      //     //   ),
-      //     // ),
-      //     // Container(color: Colors.black.withOpacity(0.6)), // Overlay gelap
+
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-                maxWidth: 400), // Batasi lebar form di layar besar
+                maxWidth: 400), 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Logo atau Judul Tematik
                 Icon(
                   Icons
-                      .shield_outlined, // Contoh ikon, bisa diganti dengan logo AOT jika ada
+                      .shield_outlined, 
                   size: 80,
                   color: theme.colorScheme.primary,
                 ),
@@ -96,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                   textAlign: TextAlign.center,
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'NotoSerif', // Font tematik
+                    fontFamily: 'NotoSerif',
                     color: theme.colorScheme.primary,
                   ),
                 ),

@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -7,18 +6,14 @@ import 'package:ta_mobile_ayas/models/merch_item_model.dart';
 import 'package:ta_mobile_ayas/models/user_model.dart';
 import 'package:ta_mobile_ayas/pages/splash_page.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
-//import 'package:timezone/timezone.dart' as tz;
 import 'package:intl/date_symbol_data_local.dart';
 
 const String userBoxName = 'userBox';
 const String merchBoxName = 'merchBox';
 
-// --- BUAT INSTANCE GLOBAL UNTUK PLUGIN NOTIFIKASI ---
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-// ----------------------------------------------------
 
-// Fungsi untuk mengisi data merch awal jika box kosong
 Future<void> _prefillMerchData() async {
   final merchBox = Hive.box<MerchItem>(merchBoxName);
   if (merchBox.isEmpty) {
@@ -26,7 +21,7 @@ Future<void> _prefillMerchData() async {
     final initialData = getInitialMerchData();
     for (var item in initialData) {
       await merchBox.put(item.id,
-          item); // Menggunakan ID item sebagai key untuk kemudahan akses/update
+          item); 
     }
     debugPrint("${merchBox.length} merch items added to the box.");
   } else {
@@ -37,31 +32,20 @@ Future<void> _prefillMerchData() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // --- INISIALISASI TIMEZONE (untuk notifikasi terjadwal) ---
   tz.initializeTimeZones();
-  // Anda mungkin perlu mengatur lokasi default, meskipun untuk notifikasi instan ini kurang kritikal
-  // tz.setLocalLocation(tz.getLocation('Asia/Jakarta')); // Contoh
-  // --------------------------------------------------------
-
-// --- INISIALISASI DATA LOCALE UNTUK INTL ---
-  // Kita menggunakan 'id_ID' untuk Bahasa Indonesia
-  // Argumen kedua (filePath) bisa null agar menggunakan mekanisme default intl
+ 
   await initializeDateFormatting('id_ID', null);
-  // ---------------------------------------------
 
   tz.initializeTimeZones();
-  // tz.setLocalLocation(tz.getLocation('Asia/Jakarta')); // Opsional
-  // --- INISIALISASI FLUTTER LOCAL NOTIFICATIONS ---
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings(
-          '@mipmap/ic_launcher'); // Pastikan ikon ini ada
+          '@mipmap/ic_launcher'); 
 
   const DarwinInitializationSettings initializationSettingsIOS =
       DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
-    // onDidReceiveLocalNotification: onDidReceiveLocalNotification, // Callback jika dibutuhkan
   );
 
   const InitializationSettings initializationSettings = InitializationSettings(
@@ -71,7 +55,6 @@ Future<void> main() async {
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
-    // onDidReceiveNotificationResponse: onDidReceiveNotificationResponse, // Callback saat notifikasi diklik
   );
 
   await Hive.initFlutter();
@@ -79,7 +62,7 @@ Future<void> main() async {
   await Hive.openBox<User>(userBoxName);
 
   Hive.registerAdapter(MerchItemAdapter());
-  await Hive.openBox<MerchItem>(merchBoxName); // <-- BUKA BOX MERCH
+  await Hive.openBox<MerchItem>(merchBoxName);
 
   await _prefillMerchData();
   runApp(const MyApp());
@@ -90,25 +73,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DEFINISI WARNA KHAS AOT "RELICS OF THE WALLS"
     const Color scoutRegimentGreen =
-        Color.fromARGB(255, 77, 96, 63); // Hijau zaitun tua/lumut
+        Color.fromARGB(255, 77, 96, 63); 
     const Color leatherBrown =
-        Color.fromARGB(255, 141, 89, 71); // Coklat kulit yang lebih standar
-    const Color parchmentWhite = Color(0xFFF5EFE6); // Putih krem/kertas tua
+        Color.fromARGB(255, 141, 89, 71); 
+    const Color parchmentWhite = Color(0xFFF5EFE6);
     const Color darkStoneGrey =
-        Color(0xFF3E3E3E); // Abu-abu batu gelap untuk surface
+        Color(0xFF3E3E3E); 
     const Color darkerStoneBg =
-        Color(0xFF2A2A2A); // Lebih gelap untuk background utama
+        Color(0xFF2A2A2A); 
     const Color deepMaroon =
-        Color.fromARGB(255, 188, 69, 69); // Merah anggur tua untuk aksen/error
-
+        Color.fromARGB(255, 188, 69, 69); 
+        
     return MaterialApp(
-      title: 'AOT Fanbase Hub', // Judul bisa disesuaikan
+      title: 'AOT Fanbase Hub', 
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           brightness: Brightness.dark,
-          fontFamily: 'NotoSerif', // Font serif untuk kesan klasik dan formal
+          fontFamily: 'NotoSerif', 
 
           colorScheme: ColorScheme(
             brightness: Brightness.dark,
@@ -120,10 +102,10 @@ class MyApp extends StatelessWidget {
             onSecondary: parchmentWhite,
 
             tertiary:
-                const Color.fromARGB(255, 198, 99, 99), // Aksen merah anggur
+                const Color.fromARGB(255, 198, 99, 99), 
             onTertiary: parchmentWhite,
 
-            error: deepMaroon, // Menggunakan deepMaroon untuk error
+            error: deepMaroon, 
             onError: parchmentWhite,
 
             background: darkerStoneBg,
@@ -132,9 +114,9 @@ class MyApp extends StatelessWidget {
             surface: darkStoneGrey,
             onSurface: parchmentWhite,
 
-            outline: Colors.grey[600], // Garis tepi yang lebih lembut
+            outline: Colors.grey[600],
             surfaceVariant: const Color(
-                0xFF4A443F), // Varian surface, sedikit lebih coklat dari darkStoneGrey
+                0xFF4A443F),
             onSurfaceVariant: parchmentWhite,
           ),
           scaffoldBackgroundColor: darkerStoneBg,
@@ -152,7 +134,7 @@ class MyApp extends StatelessWidget {
           cardTheme: CardTheme(
             elevation: 2.0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0), // Sedikit lebih tegas
+              borderRadius: BorderRadius.circular(8.0), 
             ),
             color: darkStoneGrey,
             margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
@@ -162,14 +144,14 @@ class MyApp extends StatelessWidget {
                 backgroundColor: scoutRegimentGreen,
                 foregroundColor: parchmentWhite,
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 22, vertical: 14), // Padding disesuaikan
+                    horizontal: 22, vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                      6), // Border radius lebih kecil untuk kesan tegas
+                      6),
                 ),
                 textStyle: const TextStyle(
                   fontSize:
-                      15, // Sedikit lebih kecil agar tidak terlalu dominan
+                      15, 
                   fontWeight: FontWeight.bold,
                   fontFamily: 'NotoSerif',
                   letterSpacing: 0.5,
@@ -213,7 +195,7 @@ class MyApp extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             side: BorderSide.none,
             secondarySelectedColor:
-                scoutRegimentGreen, // Warna chip saat dipilih (jika ada)
+                scoutRegimentGreen, 
             selectedColor: scoutRegimentGreen,
           ),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(

@@ -54,7 +54,6 @@ class _EventMapPageState extends State<EventMapPage> {
           _isLoading = false;
         });
 
-        // Pusatkan kamera di tengah dua titik
         _zoomToFitBounds();
       }
     } catch (e) {

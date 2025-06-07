@@ -1,7 +1,6 @@
-// lib/domain/models/merch_item_model.dart
 import 'package:hive/hive.dart';
 
-part 'merch_item_model.g.dart'; // File ini akan di-generate
+part 'merch_item_model.g.dart';
 
 @HiveType(typeId: 1)
 class MerchItem extends HiveObject {
@@ -18,12 +17,12 @@ class MerchItem extends HiveObject {
   late double priceJpy;
 
   @HiveField(4)
-  late String imageUrl; // URL utama dari data dummy
+  late String imageUrl; 
 
   @HiveField(5)
   late String category;
 
-  @HiveField(6) // <-- FIELD BARU
+  @HiveField(6) 
   late String storeUrl;
 
   MerchItem({
@@ -38,13 +37,10 @@ class MerchItem extends HiveObject {
 
   // Getter untuk gambar yang akan ditampilkan, dengan fallback
   String get displayImageUrl {
-    // Cek jika imageUrl valid (tidak kosong dan dimulai dengan http)
     if (imageUrl.isNotEmpty &&
         (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'))) {
       return imageUrl;
     }
-    // Jika tidak valid, kembalikan URL placeholder yang stabil
-    // Menggunakan ID item untuk seed agar placeholder konsisten per item
     return 'https://picsum.photos/seed/aot_merch_${id}/400/300';
   }
 }

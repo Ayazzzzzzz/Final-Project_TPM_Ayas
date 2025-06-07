@@ -1,14 +1,12 @@
-// lib/domain/models/titan_model.dart
-
 class Titan {
   final int id;
   final String name;
   final String? img;
   final String? height;
   final List<String> abilities;
-  final String? currentInheritor; // Ini adalah URL
-  final List<String> formerInheritors; // Ini adalah list URL
-  final dynamic allegiance; // Bisa jadi string atau list
+  final String? currentInheritor; 
+  final List<String> formerInheritors; 
+  final dynamic allegiance; 
 
   Titan({
     required this.id,
@@ -30,11 +28,10 @@ class Titan {
       abilities: List<String>.from(json['abilities'] ?? []),
       currentInheritor: json['current_inheritor'],
       formerInheritors: List<String>.from(json['former_inheritors'] ?? []),
-      allegiance: json['allegiance'], // Biarkan dinamis, handle di UI
+      allegiance: json['allegiance'], 
     );
   }
 
-  // Informasi penting untuk ditampilkan di grid
   String get primaryInfo => height ?? 'Unknown Height';
   String get displayImage => img ?? 'https://via.placeholder.com/200x300.png?text=No+Image';
 }

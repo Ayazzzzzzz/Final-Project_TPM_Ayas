@@ -1,6 +1,4 @@
-// lib/data/dummy/character_quotes.dart
 final Map<String, List<String>> characterIconicQuotes = {
-  // Menggunakan List<String> agar satu karakter bisa punya beberapa kutipan acak
   "Eren Jaeger": [
     "If you win, you live. If you lose, you die. If you don't fight, you can't win!",
     "I'll destroy them! Every last one of those animals that's on this earth!",

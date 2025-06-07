@@ -1,9 +1,7 @@
-// lib/pages/detail/character_detail_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:ta_mobile_ayas/data/character_quotes.dart';
 import 'package:ta_mobile_ayas/models/character_model.dart';
-import 'package:ta_mobile_ayas/services/api_service.dart'; // <-- IMPORT DATA KUTIPAN
+import 'package:ta_mobile_ayas/services/api_service.dart';
 import '../../utils/notification_helper.dart';
 
 class CharacterDetailPage extends StatefulWidget {
@@ -19,7 +17,7 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
   final ApiService _apiService = ApiService();
   late Future<Character> _characterDetailFuture;
   bool _notificationShownForThisInstance =
-      false; // Flag untuk instance halaman ini
+      false; 
 
   @override
   void initState() {
@@ -40,7 +38,6 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
   void _triggerQuoteNotification(Character character) async {
     String quote = getQuoteByCharacterName(character.name);
 
-    // Beri jeda agar tidak terlalu instan
     await Future.delayed(const Duration(seconds: 3));
 
     if (mounted) {
@@ -51,7 +48,6 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
     }
   }
 
-  // Helper: Judul Seksi dengan Ikon
   Widget _buildSectionTitle(BuildContext context, IconData icon, String title) {
     final theme = Theme.of(context);
     return Padding(
@@ -72,7 +68,6 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
     );
   }
 
-  // Helper: Baris Info (Label: Nilai)
   Widget _buildInfoRow(
       BuildContext context, IconData icon, String label, String? value) {
     final theme = Theme.of(context);
@@ -87,7 +82,7 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
           Icon(icon, size: 20, color: theme.colorScheme.secondary),
           const SizedBox(width: 12),
           SizedBox(
-            width: 100, // Lebar tetap untuk label agar rapi
+            width: 100, 
             child: Text(
               '$label:',
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -108,7 +103,6 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
     );
   }
 
-  // Helper: Daftar sebagai Chip
   Widget _buildChipList(
       BuildContext context, IconData icon, String label, List<String> items) {
     final theme = Theme.of(context);
@@ -223,7 +217,6 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
                           ),
                         ),
                       ),
-                      // Gradient overlay untuk keterbacaan teks judul
                       DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(

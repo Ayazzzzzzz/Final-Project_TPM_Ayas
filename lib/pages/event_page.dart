@@ -1,4 +1,3 @@
-// lib/pages/features/events_page.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ta_mobile_ayas/data/aot_event.dart';
@@ -16,21 +15,17 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   List<EventItem> _events = [];
 
-  // --- STATE BARU UNTUK KONVERSI WAKTU INTERAKTIF ---
-  // Menyimpan zona waktu target yang dipilih pengguna. Default ke 'WIB'.
   String _selectedTargetTimeZoneKey = 'WIB';
 
-  // Daftar zona waktu yang bisa dipilih pengguna beserta labelnya
   final Map<String, String> _targetTimeZones = {
-    'WIB': 'Asia/Jakarta', // Waktu Indonesia Barat
-    'WITA': 'Asia/Makassar', // Waktu Indonesia Tengah
-    'WIT': 'Asia/Jayapura', // Waktu Indonesia Timur
+    'WIB': 'Asia/Jakarta',
+    'WITA': 'Asia/Makassar', 
+    'WIT': 'Asia/Jayapura', 
     'Jepang': 'Asia/Tokyo',
     'London':
-        'Europe/London', // Waktu London (memperhitungkan BST/GMT otomatis)
-    'Local': 'Local', // Pilihan untuk waktu lokal perangkat
+        'Europe/London', 
+    'Local': 'Local', 
   };
-  // ----------------------------------------------------
 
   @override
   void initState() {
@@ -69,9 +64,7 @@ class _EventsPageState extends State<EventsPage> {
 
     return Scaffold(
       body: Column(
-        // Bungkus dengan Column untuk menambahkan Dropdown
         children: [
-          // --- DROPDOWN PEMILIHAN ZONA WAKTU TARGET ---
           SizedBox(
             height: 30,
           ),
@@ -85,7 +78,7 @@ class _EventsPageState extends State<EventsPage> {
                   child: Text(key,
                       style: TextStyle(
                           color: theme.colorScheme
-                              .onSurface)), // Menampilkan key sebagai label (WIB, WITA, dll.)
+                              .onSurface)), 
                 );
               }).toList(),
               onChanged: (String? newValue) {
@@ -114,22 +107,17 @@ class _EventsPageState extends State<EventsPage> {
               dropdownColor: theme.colorScheme.surfaceVariant,
             ),
           ),
-          // -------------------------------------------
           Expanded(
             // ListView.builder harus di dalam Expanded
             child: _events.isEmpty
                 ? const Center(child: Text("Tidak ada jadwal acara saat ini."))
                 : ListView.builder(
                     padding: const EdgeInsets.fromLTRB(
-                        12.0, 0, 12.0, 12.0), // Sesuaikan padding
+                        12.0, 0, 12.0, 12.0), 
                     itemCount: _events.length,
                     itemBuilder: (context, index) {
                       final event = _events[index];
-                      // Waktu asli acara (misalnya, jika ingin ditampilkan terpisah)
-                      // final originalTimeFormatted = DateFormat('HH:mm, E dd MMM yyyy', 'id_ID')
-                      //     .format(tz.TZDateTime.from(event.eventTimeUtc, tz.getLocation(event.originalTimeZoneIdentifier ?? 'UTC')));
-                      // Saya akan gunakan label originalTimeZoneLabel dari model event
-
+                      
                       return Card(
                         margin: const EdgeInsets.only(bottom: 16.0),
                         clipBehavior: Clip.antiAlias,
@@ -141,12 +129,11 @@ class _EventsPageState extends State<EventsPage> {
                               if (event.imageUrl != null &&
                                   event.imageUrl!.isNotEmpty)
                                 ClipRRect(
-                                  // Bisa juga tanpa ClipRRect jika Card sudah punya clipBehavior
-                                  // borderRadius: const BorderRadius.vertical(top: Radius.circular(8.0)), // Sesuaikan dengan radius Card
+                              
                                   child: Image.network(
                                     event.imageUrl!,
                                     height:
-                                        180, // Tinggi gambar bisa disesuaikan
+                                        180, 
                                     width: double.infinity,
                                     fit: BoxFit.cover,
                                     loadingBuilder:
@@ -190,11 +177,9 @@ class _EventsPageState extends State<EventsPage> {
                                       fontFamily: 'NotoSerif')),
                               const SizedBox(height: 6),
                               Text(
-                                event.description, /* ... style ... */
+                                event.description, 
                               ),
                               const SizedBox(height: 12),
-
-                              // Menampilkan Waktu Asli Acara dari Label
                               Text(
                                 "Original Schedule: ${event.originalTimeZoneLabel}",
                                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -206,7 +191,6 @@ class _EventsPageState extends State<EventsPage> {
                                 width: double.infinity,
                                 child: ElevatedButton.icon(
                                   onPressed: () {
-                                    // --- NAVIGASI KE HALAMAN PETA BARU ---
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -216,7 +200,7 @@ class _EventsPageState extends State<EventsPage> {
                                     );
                                   },
                                   label:
-                                      const Text("Lihat di Peta"), // Ganti teks
+                                      const Text("Lihat di Peta"), 
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Theme.of(context)
                                         .colorScheme
@@ -228,7 +212,6 @@ class _EventsPageState extends State<EventsPage> {
                                 ),
                               ),
 
-                              // Menampilkan Waktu yang Sudah Dikonversi
                               Row(
                                 children: [
                                   Icon(Icons.access_time_filled_rounded,
@@ -244,7 +227,7 @@ class _EventsPageState extends State<EventsPage> {
                               const SizedBox(height: 6),
                               Text(
                                 _formatDateTime(event.eventTimeUtc,
-                                    _selectedTargetTimeZoneKey), // Panggil fungsi format dengan zona waktu terpilih
+                                    _selectedTargetTimeZoneKey), 
                                 style: theme.textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: theme.colorScheme.secondary),

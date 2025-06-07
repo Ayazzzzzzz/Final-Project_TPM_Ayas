@@ -1,6 +1,5 @@
 import 'dart:math';
 
-// Kumpulan fakta menarik tentang dunia Attack on Titan
 final List<String> _titanFacts = [
   "Titan Murni (Pure Titans) secara naluriah akan memburu manusia terdekat, namun mereka tidak butuh makan untuk bertahan hidup. Mereka mendapatkan energi dari sinar matahari.",
   "Leher bagian belakang (nape of the neck) adalah satu-satunya titik lemah fatal bagi semua Titan. Ukurannya persis 1 meter dan lebar 10 cm.",
@@ -12,7 +11,6 @@ final List<String> _titanFacts = [
   "Selama timeskip, Hange Zoë menemukan bahwa Titan dulunya adalah manusia, sebuah kebenaran yang coba ditutupi oleh pemerintah di dalam dinding.",
 ];
 
-/// Mengembalikan sebuah fakta acak dari daftar di atas.
 String getRandomTitanFact() {
   final random = Random();
   return _titanFacts[random.nextInt(_titanFacts.length)];

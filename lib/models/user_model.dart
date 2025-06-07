@@ -1,4 +1,3 @@
-// lib/domain/models/user_model.dart
 import 'package:hive/hive.dart';
 
 part 'user_model.g.dart';
@@ -17,7 +16,7 @@ class User extends HiveObject {
   @HiveField(3)
   late String hashedPassword;
 
-  @HiveField(4) // Field baru untuk path foto profil
+  @HiveField(4) 
   String? profilePicturePath; 
 
   User({
@@ -25,6 +24,6 @@ class User extends HiveObject {
     required this.username,
     required this.email,
     required this.hashedPassword,
-    this.profilePicturePath, // Tambahkan di constructor
+    this.profilePicturePath, 
   });
 }

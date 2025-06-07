@@ -1,10 +1,9 @@
-// lib/pages/profile_page.dart
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:ta_mobile_ayas/data/titan_fact.dart'; // Import fakta titan
+import 'package:ta_mobile_ayas/data/titan_fact.dart'; 
 import 'package:ta_mobile_ayas/models/user_model.dart';
 import 'package:ta_mobile_ayas/pages/login_page.dart';
 import 'package:ta_mobile_ayas/pages/services/auth_service.dart';
@@ -139,11 +138,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       _buildUserCard(theme),
                       const SizedBox(height: 24),
 
-                      // --- KOTAK 2: FAKTA TITAN RANDOM ---
                       _buildTitanFactCard(theme),
                       const SizedBox(height: 32),
 
-                      // --- TOMBOL LOGOUT DI LUAR KOTAK ---
                       ElevatedButton.icon(
                         icon: const Icon(Icons.logout_rounded),
                         label: const Text('Logout'),

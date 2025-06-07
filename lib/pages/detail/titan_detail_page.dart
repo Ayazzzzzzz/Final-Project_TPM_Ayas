@@ -1,11 +1,9 @@
-// lib/pages/detail/titan_detail_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:ta_mobile_ayas/models/titan_model.dart';
 import 'package:ta_mobile_ayas/services/api_service.dart';
 
 class TitanDetailPage extends StatefulWidget {
-  final Titan titan; // Data awal dari list
+  final Titan titan;
 
   const TitanDetailPage({super.key, required this.titan});
 
@@ -23,7 +21,6 @@ class _TitanDetailPageState extends State<TitanDetailPage> {
     _titanDetailFuture = _apiService.getTitanById(widget.titan.id);
   }
 
-  // Helper widget (bisa dipindahkan ke file terpisah jika sering digunakan)
   Widget _buildInfoRow(
       BuildContext context, IconData icon, String label, String? value) {
     final theme = Theme.of(context);

@@ -1,5 +1,3 @@
-// lib/widgets/data_grid_card.dart
-
 import 'package:flutter/material.dart';
 import 'package:ta_mobile_ayas/models/character_model.dart';
 import 'package:ta_mobile_ayas/models/organization_model.dart';
@@ -8,11 +6,8 @@ import 'package:ta_mobile_ayas/pages/detail/character_detail_page.dart';
 import 'package:ta_mobile_ayas/pages/detail/organization_detail_page.dart';
 import 'package:ta_mobile_ayas/pages/detail/titan_detail_page.dart';
 
-// import '../pages/detail/titan_detail_page.dart'; // Buat nanti
-// import '../pages/detail/organization_detail_page.dart'; // Buat nanti
-
 class DataGridCard extends StatelessWidget {
-  final dynamic item; // Bisa Character, Titan, atau Organization
+  final dynamic item; 
 
   const DataGridCard({super.key, required this.item});
 
@@ -28,7 +23,7 @@ class DataGridCard extends StatelessWidget {
       if ((item as Character).img != null) {
         imageUrl = (item as Character).img!;
       } else {
-        imageUrl = 'https://via.placeholder.com/350'; // fallback image
+        imageUrl = 'https://via.placeholder.com/350'; 
       }
       id = (item as Character).id;
       heroTagPrefix = "character";
@@ -56,7 +51,6 @@ class DataGridCard extends StatelessWidget {
           );
         } else if (item is Titan) {
           Navigator.push(
-            // --- NAVIGASI BARU ---
             context,
             MaterialPageRoute(
               builder: (context) => TitanDetailPage(titan: item as Titan),
@@ -64,7 +58,6 @@ class DataGridCard extends StatelessWidget {
           );
         } else if (item is Organization) {
           Navigator.push(
-            // --- NAVIGASI BARU ---
             context,
             MaterialPageRoute(
               builder: (context) =>
@@ -107,10 +100,10 @@ class DataGridCard extends StatelessWidget {
                   fallbackImageUrl = (item as Organization).displayImage;
 
                 return Image.network(
-                  fallbackImageUrl, // Gunakan ini jika URL asli error
+                  fallbackImageUrl, 
                   fit: BoxFit.cover,
                   errorBuilder:
-                      (context, error, stackTrace) => // Fallback terakhir
+                      (context, error, stackTrace) => 
                           const Icon(Icons.broken_image,
                               size: 50, color: Colors.grey),
                 );

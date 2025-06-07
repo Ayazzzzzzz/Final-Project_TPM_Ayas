@@ -1,5 +1,4 @@
-// lib/pages/home_page.dart
-import 'dart:async'; // Untuk StreamSubscription
+import 'dart:async'; 
 import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +7,13 @@ import 'package:ta_mobile_ayas/models/organization_model.dart';
 import 'package:ta_mobile_ayas/models/titan_model.dart';
 import 'package:ta_mobile_ayas/pages/merch_page.dart';
 import 'package:ta_mobile_ayas/pages/widgets/data_grid_card.dart';
-import 'package:ta_mobile_ayas/services/api_service.dart'; // Ganti path jika perlu
-import 'package:sensors_plus/sensors_plus.dart'; // Path ke MerchPage
+import 'package:ta_mobile_ayas/services/api_service.dart'; 
+import 'package:sensors_plus/sensors_plus.dart'; 
 
 enum DisplayCategory { character, titan, organization }
 
 class HomePage extends StatefulWidget {
-  final String username; // Terima username dari MainLayout
+  final String username; 
 
   const HomePage({super.key, required this.username});
 
@@ -30,27 +29,22 @@ class _HomePageState extends State<HomePage> {
   List<dynamic> _allItems = [];
   List<dynamic> _displayedItems = [];
   bool _isLoading = true;
-  // Username akan diambil dari widget.username
-
-  // Variabel untuk filter occupation
   List<String> _uniqueOccupations = [];
   String? _selectedOccupationFilter;
 
-  // Variabel untuk sensor dan summon titan
   StreamSubscription? _accelerometerSubscription;
   bool _isProcessingShake = false;
   DateTime? _lastShakeTime;
   final Random _random = Random();
   List<Titan> _titansForSummon = [];
   bool _isLoadingTitansForSummon = false;
-  // bool _isSummonModeActive = false; // <-- VARIABEL INI DIHAPUS
 
   @override
   void initState() {
     super.initState();
-    _loadInitialData(); // Memuat data kategori dan filter awal
+    _loadInitialData();
     _searchController.addListener(_filterAndSearchItems);
-    _initAccelerometerListener(); // <-- SENSOR LANGSUNG DIAKTIFKAN
+    _initAccelerometerListener(); 
   }
 
   @override
@@ -76,36 +70,32 @@ class _HomePageState extends State<HomePage> {
         _allItems.isNotEmpty) {
       final List<String?> nullableOccupations = _allItems
           .whereType<
-              Character>() // Memastikan hanya objek Character yang diproses
+              Character>() 
           .map((char) => char
-              .occupation) // char.occupation adalah String?, jadi hasilnya List<String?>
+              .occupation) 
           .toList();
 
-      // Filter null dan string kosong, lalu cast ke String
       final List<String> validOccupations = nullableOccupations
           .where((occ) =>
-              occ != null && occ.isNotEmpty) // Membuang null dan string kosong
-          .cast<String>() // Dengan aman melakukan cast ke List<String>
-          .toSet() // Menghilangkan duplikat
+              occ != null && occ.isNotEmpty) 
+          .cast<String>() 
+          .toSet() 
           .toList();
 
       validOccupations.sort();
 
-      // Hanya update jika ada perubahan
       if (!const ListEquality().equals(_uniqueOccupations, validOccupations)) {
         if (mounted) {
           setState(() {
             _uniqueOccupations =
-                validOccupations; // Tipe sudah cocok: List<String>
+                validOccupations; 
             debugPrint(
                 "${_uniqueOccupations.length} unique occupations found: $_uniqueOccupations");
           });
         }
       }
     } else {
-      // Jika bukan kategori character atau _allItems kosong
       if (_uniqueOccupations.isNotEmpty) {
-        // Hanya update jika memang perlu dikosongkan
         if (mounted) {
           setState(() {
             _uniqueOccupations = [];
@@ -122,10 +112,9 @@ class _HomePageState extends State<HomePage> {
       _isLoading = true;
       _displayedItems = [];
       _allItems = [];
-      // Reset filter occupation jika kategori BUKAN character
       if (category != DisplayCategory.character) {
         _selectedOccupationFilter = null;
-        _uniqueOccupations = []; // Kosongkan opsi filter occupation
+        _uniqueOccupations = []; 
       }
     });
 
@@ -143,15 +132,13 @@ class _HomePageState extends State<HomePage> {
           break;
       }
       if (mounted) {
-        _allItems = fetchedItems; // Simpan dulu semua item
-        // Ekstrak occupations SETELAH data karakter didapat
+        _allItems = fetchedItems; 
         if (category == DisplayCategory.character) {
           _extractUniqueOccupations();
         }
         setState(() {
-          // Satu kali setState setelah semua data siap
           _isLoading = false;
-          _filterAndSearchItems(); // Panggil filter & search setelah data dan opsi filter siap
+          _filterAndSearchItems(); 
         });
       }
     } catch (e) {
@@ -204,7 +191,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedCategory = category;
       _searchController.clear();
-      // _selectedOccupationFilter akan di-reset di _fetchDataForCategory jika category bukan character
     });
     _fetchDataForCategory(category);
   }
@@ -312,8 +298,7 @@ class _HomePageState extends State<HomePage> {
         accelerometerEventStream(samplingPeriod: SensorInterval.uiInterval)
             .listen(
       (AccelerometerEvent event) {
-        // if (!_isSummonModeActive || !mounted) return; // <-- LOGIKA INI DIGANTI
-        if (!mounted) return; // Cukup cek ini
+        if (!mounted) return; 
 
         double x = event.x;
         double y = event.y;
@@ -343,8 +328,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // void _stopAccelerometerListener() { ... } // <-- FUNGSI INI DIHAPUS
-  // void _toggleSummonMode() { ... } // <-- FUNGSI INI DIHAPUS
 
   void _performTitanSummon() {
     if (_titansForSummon.isEmpty || !mounted) {

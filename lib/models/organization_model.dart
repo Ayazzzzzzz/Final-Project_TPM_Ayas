@@ -5,10 +5,10 @@ class Organization {
   final String name;
   final String? img;
   final List<String> occupations;
-  final List<String> notableMembers; // Ini adalah list URL
-  final List<String> notableFormerMembers; // Ini adalah list URL
+  final List<String> notableMembers; 
+  final List<String> notableFormerMembers;
   final String? affiliation;
-  final String? debut; // Ini adalah URL
+  final String? debut; 
 
   Organization({
     required this.id,
@@ -34,7 +34,6 @@ class Organization {
     );
   }
 
-  // Informasi penting untuk ditampilkan di grid
   String get primaryInfo => affiliation ?? 'Unknown Affiliation';
   String get displayImage => img ?? 'https://via.placeholder.com/200x300.png?text=No+Image';
 }

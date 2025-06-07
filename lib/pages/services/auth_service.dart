@@ -1,26 +1,25 @@
-// lib/data/services/auth_service.dart
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:crypto/crypto.dart';
-import 'dart:convert'; // Untuk utf8.encode
+import 'dart:convert'; 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ta_mobile_ayas/models/user_model.dart';
-import '../../main.dart'; // Untuk userBoxName
+import '../../main.dart'; 
 
 class AuthService {
   final Box<User> _userBox = Hive.box<User>(userBoxName);
 
   String _hashPassword(String password) {
-    final bytes = utf8.encode(password); // Encode password ke bytes
-    final digest = sha256.convert(bytes); // Hash menggunakan SHA-256
-    return digest.toString(); // Kembalikan sebagai string
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes); 
+    return digest.toString(); 
   }
 
   Future<String?> registerUser({
     required String username,
     required String email,
     required String password,
-    String? initialProfilePicPath, // Tambahkan parameter opsional
+    String? initialProfilePicPath, 
   }) async {
     final userId = email.toLowerCase();
     if (_userBox.containsKey(userId)) {
@@ -32,7 +31,7 @@ class AuthService {
       username: username,
       email: email,
       hashedPassword: hashedPassword,
-      profilePicturePath: initialProfilePicPath, // Simpan path awal
+      profilePicturePath: initialProfilePicPath, 
     );
     try {
       await _userBox.put(userId, newUser);
@@ -42,14 +41,12 @@ class AuthService {
     }
   }
 
-  // Fungsi untuk update foto profil
   Future<bool> updateUserProfilePicture(String userId, String newPath) async {
     final user = _userBox.get(userId.toLowerCase());
     if (user != null) {
       user.profilePicturePath = newPath;
       try {
-        await user.save(); // HiveObject bisa di-save langsung
-        // Atau jika key-nya adalah user.id: await _userBox.put(user.id, user);
+        await user.save(); 
         return true;
       } catch (e) {
         debugPrint("Error updating profile picture in Hive: $e");
@@ -65,39 +62,35 @@ class AuthService {
   }) async {
     final userId = email.toLowerCase();
     final user = _userBox
-        .get(userId); // Mengambil user dari Hive menggunakan key [cite: 10]
+        .get(userId); 
 
     if (user == null) {
-      return null; // Pengguna tidak ditemukan
+      return null;
     }
 
     final hashedPassword = _hashPassword(password);
     if (user.hashedPassword == hashedPassword) {
-      // Password cocok, login berhasil
-      // Simpan sesi menggunakan Shared Preferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('loggedInUserId',
-          user.id); // Simpan ID pengguna yang login [cite: 13]
+          user.id);
       await prefs.setString('loggedInUsername', user.username);
 
       return {
         'id': user.id,
         'username': user.username,
         'email': user.email,
-        // Jangan kembalikan password atau hashedPassword
       };
     }
-    return null; // Password salah
+    return null; 
   }
 
   Future<void> logoutUser() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('loggedInUserId'); // Hapus ID dari sesi [cite: 13]
+    await prefs.remove('loggedInUserId'); 
     await prefs.remove('loggedInUsername');
   }
 
   Future<Map<String, String?>?> checkLoginStatus() async {
-    // Mengambil data sesi [cite: 15]
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('loggedInUserId');
     final username = prefs.getString('loggedInUsername');

@@ -9,7 +9,6 @@ class SaranPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Helper widget untuk membuat baris info (agar tidak berulang)
     Widget _buildInfoRow(IconData icon, String title, String value) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -31,8 +30,6 @@ class SaranPage extends StatelessWidget {
         ),
       );
     }
-
-    // Helper widget untuk poin feedback
     Widget _buildFeedbackPoint(String text) {
       return Padding(
         padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
@@ -54,7 +51,6 @@ class SaranPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- BAGIAN 1: INFORMASI MATA KULIAH ---
             const SizedBox(height: 24),
             Text(
               "Detail Evaluasi",
@@ -81,7 +77,6 @@ class SaranPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // --- BAGIAN 2: PENILAIAN & KESAN POSITIF ---
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -134,7 +129,6 @@ class SaranPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // --- BAGIAN 3: SARAN UNTUK PERBAIKAN ---
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

@@ -1,6 +1,5 @@
-// lib/utils/notification_helper.dart
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import '../main.dart'; // Untuk mengakses flutterLocalNotificationsPlugin
+import '../main.dart'; 
 
 class NotificationHelper {
   static Future<void> showCharacterQuoteNotification(
@@ -13,10 +12,8 @@ class NotificationHelper {
       'Character Quotes',
       channelDescription:
           'Notifications with iconic quotes from AOT characters.',
-      // --- TINGKATKAN PARAMETER INI ---
-      importance: Importance.max, // Tingkatkan ke max
-      priority: Priority.high, // Tingkatkan ke high
-      // --------------------------------
+      importance: Importance.max, 
+      priority: Priority.high,
       showWhen: true,
       icon: notificationIconName,
       largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
@@ -28,9 +25,6 @@ class NotificationHelper {
         summaryText: 'Quote of the Moment',
         htmlFormatSummaryText: true,
       ),
-      // Anda bisa coba tambahkan lockscreenVisibility jika tersedia di versi plugin Anda
-      // (Ini mungkin tidak ada, tergantung versi plugin)
-      // lockscreenVisibility: NotificationVisibility.public,
     );
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =

@@ -1,8 +1,5 @@
-// lib/main_layout.dart
 import 'package:flutter/material.dart';
 import 'package:ta_mobile_ayas/pages/event_page.dart';
-// Pastikan path import ini benar sesuai struktur proyek Anda
-// Ganti 'ta_mobile_ayas' dengan nama paket Anda jika berbeda
 import 'package:ta_mobile_ayas/pages/home_page.dart';
 import 'package:ta_mobile_ayas/pages/saran_page.dart';
 import 'package:ta_mobile_ayas/pages/profile_page.dart';
@@ -54,7 +51,6 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      // Tidak ada AppBar di sini lagi
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,

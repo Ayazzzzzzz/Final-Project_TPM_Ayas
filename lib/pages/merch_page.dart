@@ -1,8 +1,7 @@
-// lib/pages/features/merch_page.dart
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ta_mobile_ayas/models/merch_item_model.dart';
-import '../../main.dart'; // Untuk merchBoxName
+import '../../main.dart'; 
 import 'package:collection/collection.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,10 +16,8 @@ class _MerchPageState extends State<MerchPage> {
   String _selectedCurrency = 'JPY';
   final List<String> _currencies = ['JPY', 'USD', 'IDR', 'MYR'];
 
-  // --- State dan Data untuk Filter Kategori ---
-  String? _selectedCategoryFilter; // Kategori yang dipilih, null berarti semua
-  List<String> _uniqueCategories = []; // Daftar kategori unik untuk dropdown
-  // -----------------------------------------
+  String? _selectedCategoryFilter; 
+  List<String> _uniqueCategories = []; 
 
   final Map<String, double> _jpyExchangeRates = {
     'USD': 0.006903,
@@ -32,15 +29,12 @@ class _MerchPageState extends State<MerchPage> {
   @override
   void initState() {
     super.initState();
-    // Ambil data kategori unik saat halaman pertama kali dimuat
-    // dan setiap kali box berubah (jika ada perubahan data dinamis)
     final merchBox = Hive.box<MerchItem>(merchBoxName);
     _initHiveBoxAndCategories();
     _updateFilterCategories(
         merchBox.values.toList()); // Panggil sekali saat init
 
     merchBox.listenable().addListener(() {
-      // Dengarkan perubahan pada box
       if (mounted) {
         _updateFilterCategories(merchBox.values.toList());
       }
@@ -48,8 +42,6 @@ class _MerchPageState extends State<MerchPage> {
   }
 
   Future<void> _initHiveBoxAndCategories() async {
-    // Pastikan box sudah terbuka sebelum digunakan
-    // Meskipun sudah dibuka di main.dart, Hive.box() aman dipanggil lagi
     _merchBox = Hive.box<MerchItem>(merchBoxName);
 
     if (mounted && _merchBox != null) {
@@ -98,7 +90,6 @@ class _MerchPageState extends State<MerchPage> {
   }
 
   String _getConvertedPrice(double priceJpy, String targetCurrency) {
-    // ... (Fungsi ini tetap sama seperti sebelumnya)
     if (targetCurrency == 'JPY') {
       return "¥${priceJpy.toStringAsFixed(0)}";
     }
@@ -119,7 +110,6 @@ class _MerchPageState extends State<MerchPage> {
     }
   }
 
-  // Fungsi untuk mendapatkan simbol mata uang
   String _getCurrencySymbol(String currencyCode) {
     switch (currencyCode) {
       case 'JPY':
@@ -149,7 +139,6 @@ class _MerchPageState extends State<MerchPage> {
       ),
       body: Column(
         children: [
-          // --- BARIS FILTER (Mata Uang & Kategori) ---
           SizedBox(
             height: 10,
           ),
@@ -158,7 +147,6 @@ class _MerchPageState extends State<MerchPage> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             child: Row(
               children: [
-                // Dropdown Mata Uang
 
                 Expanded(
                   child: DropdownButtonFormField<String>(
@@ -209,9 +197,8 @@ class _MerchPageState extends State<MerchPage> {
                             color:
                                 theme.colorScheme.onSurface.withOpacity(0.7))),
                     items: [
-                      // Opsi untuk menampilkan semua kategori
                       DropdownMenuItem<String>(
-                        value: null, // Gunakan null untuk "All"
+                        value: null, 
                         child: Text("All Categories",
                             style:
                                 TextStyle(color: theme.colorScheme.onSurface)),
@@ -251,7 +238,6 @@ class _MerchPageState extends State<MerchPage> {
           SizedBox(
             height: 6,
           ),
-          // ---------------------------------------------
           Expanded(
             child: ValueListenableBuilder(
               valueListenable: Hive.box<MerchItem>(merchBoxName).listenable(),
@@ -261,7 +247,6 @@ class _MerchPageState extends State<MerchPage> {
                       child: Text("Belum ada item merchandise."));
                 }
 
-                // Terapkan filter kategori
                 List<MerchItem> filteredItems = box.values.toList();
                 if (_selectedCategoryFilter != null) {
                   filteredItems = filteredItems
@@ -270,7 +255,7 @@ class _MerchPageState extends State<MerchPage> {
                 }
 
                 filteredItems.sort((a, b) =>
-                    a.name.compareTo(b.name)); // Urutkan berdasarkan nama
+                    a.name.compareTo(b.name)); 
 
                 if (filteredItems.isEmpty) {
                   return const Center(
@@ -327,13 +312,11 @@ class _MerchPageState extends State<MerchPage> {
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'NotoSerif')),
                                 const SizedBox(height: 8),
-                                // Menampilkan Kategori dan Harga dalam satu baris
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
-                                      // Agar Chip tidak overflow jika teks harga panjang
                                       child: Chip(
                                         label: Text(item.category),
                                         backgroundColor:
@@ -354,10 +337,10 @@ class _MerchPageState extends State<MerchPage> {
                                       style:
                                           theme.textTheme.titleLarge?.copyWith(
                                         color: theme.colorScheme
-                                            .tertiary, // ParchmentWhite, kontras tinggi
+                                            .tertiary, 
                                         fontWeight: FontWeight.bold,
                                         fontFamily:
-                                            'NotoSerif', // Menjaga konsistensi font
+                                            'NotoSerif', 
                                       ),
                                     ),
                                   ],
